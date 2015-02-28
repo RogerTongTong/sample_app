@@ -62,6 +62,11 @@ class UserTest < ActiveSupport::TestCase
     @user.save
     assert_equal another_email.downcase, @user.reload.email
   end
+  
+  test "email address should not contain consecutive dot behind @" do
+    @user.email = "foo@bar..com"
+    assert_not @user.valid?
+  end
 
   test "password should have a mininum length" do
     @user.password = @user.password_confirmation = "a" * 5
